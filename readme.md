@@ -116,14 +116,17 @@ python adversarial_fine-tuning.py --dataset cifar10 --pre_dataset imagenet --ssl
   - `train_down_with_pretrained_encoder.py` is used to train downstream models on **clean encoders** (without adversarial fine-tuning).
   - `train_down_singleE.py` is used to train downstream models on **adversarially fine-tuned encoders**.
   - In this example, the **BMP-Branch encoder** is SimCLR pre-trained on CIFAR-10.
+  - For comparison, we also train a downstream model using the victim encoder.
   - Consequently, we train downstream models for the following three encoders:
     1. SimCLR (clean, pre-trained on CIFAR-10)
     2. W-MSE (adversarially fine-tuned on CIFAR-10)
     3. BYOL (adversarially fine-tuned, pre-trained on ImageNet)
+    4. W-MSE (clean, pre-trained on CIFAR-10)
   
   Run the following commands to train the downstream models:
 ```shell 
 python train_down_with_pretrained_encoder.py --dataset cifar10 --pre_dataset cifar10 --ssl_method simclr
+python train_down_with_pretrained_encoder.py --dataset cifar10 --pre_dataset cifar10 --ssl_method wmse
 python train_down_singleE.py --dataset cifar10 --pre_dataset cifar10 --ft_dataset cifar10 --ssl_method wmse
 python train_down_singleE.py --dataset cifar10 --pre_dataset imagenet --ft_dataset cifar10 --ssl_method byol
 ```

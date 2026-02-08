@@ -1,18 +1,28 @@
 # ZePAD
 
-The implementation of our IEEE S&P 2024 paper "Securely Fine-tuning Pre-trained Encoders Against Adversarial Examples".
+The implementation of our ICLR 2026 paper "Zero-Sacrifice Persistent-Robustness Adversarial Defense for Pre-Trained Encoders".
 
 ![Python 3.8](https://img.shields.io/badge/python-3.8-green.svg?style=plastic)
 ![Pytorch 1.8.0](https://img.shields.io/badge/pytorch-1.8.0-red.svg?style=plastic)
 
-
 ## Abstract
 
-## Latest Update
+The widespread use of publicly available pre-trained encoders from self-supervised learning (SSL) has exposed a critical vulnerability: their susceptibility to downstream-agnostic adversarial examples (DAEs), which are crafted without knowledge of the downstream tasks but capable of misleading downstream models. While several defense methods have been explored recently, they rely primarily on task-specific adversarial fine-tuning, which inevitably limits generalizability and causes catastrophic forgetting and deteriorates benign performance.
+
+Different from previous works, we propose a more rigorous defense goal that requires only a single tuning for diverse downstream tasks to defend against DAEs and preserve benign performance.
+
+To achieve this defense goal, we introduce ***Zero-Sacrifice Persistent-Robustness Adversarial Defense (ZePAD)***, which is inspired by the inherent sensitivity of neural networks to data characteristics. Specifically, ZePAD is a dual-branch structure, which consists of a **Multi-Pattern Adversarial Enhancement Branch (MPAE-Branch)** that uses two adversarially fine-tuned encoders to strengthen adversarial resistance. The **Benign Memory Preservation Branch (BMP-Branch)** is trained on local data to ensure adversarial robustness does not compromise benign performance.
+
+Surprisingly, we find that ZePAD can directly detect DAEs by evaluating branch confidence, without introducing any adversarial example identification task during training. Notably, by enriching feature diversity, our method enables a single adversarial fine-tuning to defend against DAEs across downstream tasks, thereby achieving persistent robustness.
+
+Extensive experiments on **11 SSL methods** and **6 datasets** validate its effectiveness. In certain cases, it achieves a **29.20% improvement in benign performance** and a **73.86% gain in adversarial robustness**, highlighting its zero-sacrifice property.
+
+
+
 ## Setup
 - **Get code**
 ```shell 
-git clone https://github.com/CGCL-codes/Gen-AF.git
+git clone https://github.com/Lawliet0o/ZePAD.git
 ```
 
 - **Build environment**
@@ -101,25 +111,24 @@ pip install -r requirements.txt
 
 This section illustrates a case that use ZePAD to protect an encoder.
 
-* Settings:
-
-  * MAPE-Branch
-
-    * Victim: W-MSE(pre-trained on CIFAR10)
-
-    * Adv-AU model: BYOL(pre-trained on ImageNet)
-
-  * BMP-Branch
-
-    * SimCLR(pre-trained on CIFAR10)
-
-  * Fine-tuning dataset: CIFAR10
-
-  * Attack: AdvEncoder([CGCL-codes/AdvEncoder: The implementation of our ICCV 2023 paper "Downstream-agnostic Adversarial Examples" (github.com)](https://github.com/CGCL-codes/AdvEncoder))
-
-  * Attacker's dataset: CIFAR10
-
-  * Downstream dataset: CIFAR10
+* **Settings**:
+* MAPE-Branch
+  
+  * Victim: W-MSE(pre-trained on CIFAR10)
+  
+  * Adv-AU model: BYOL(pre-trained on ImageNet)
+  
+* BMP-Branch
+  
+  * SimCLR(pre-trained on CIFAR10)
+  
+* Fine-tuning dataset: CIFAR10
+  
+* Attack: AdvEncoder([CGCL-codes/AdvEncoder: The implementation of our ICCV 2023 paper "Downstream-agnostic Adversarial Examples" (github.com)](https://github.com/CGCL-codes/AdvEncoder))
+  
+* Attacker's dataset: CIFAR10
+  
+* Downstream dataset: CIFAR10
 
 - **Adversarial Fine-tuning**
   - Here, we select the W-MSE which is pre-trained on CIFAR10 as the victim model
@@ -133,18 +142,48 @@ python adversarial_fine-tuning.py --dataset cifar10 --pre_dataset imagenet --ssl
   - We can use the "train_down_with_pretrained_encoder.py " to train the downstream models for clean(without adversarial fine-tuning) encoders
   - We can use the "train_down_singleE.py" to train the downstream models for the fine-tuned encoders
   - Here, the BMP-Branch is selected as SimCLR which is pre-trained on CIFAR10
-  - So, in this case, we need to train the downstream models
+  - So, in this case, we need to train the downstream models for these three encoders
 ```shell 
-python standard_fine-tuning.py
+python train_down_with_pretrained_encoder.py --dataset cifar10 --pre_dataset cifar10 --ssl_method simclr
+python train_down_singleE.py --dataset cifar10 --pre_dataset cifar10 --ft_dataset cifar10 --ssl_method wmse
+python train_down_singleE.py --dataset cifar10 --pre_dataset imagenet --ft_dataset cifar10 --ssl_method byol
 ```
 
-## BibTeX 
-If you find Gen-AF both interesting and helpful, please consider citing us in your research or publications:
-```bibtex
-@inproceedings{zhou2024securely,
-  title={Securely Fine-tuning Pre-trained Encoders Against Adversarial Examples},
-  author={Zhou, Ziqi and Li, Minghui and Liu, Wei and Hu, Shengshan and Zhang, Yechao and Wan, Wei and Xue, Lulu and Zhang, Leo Yu and Yao, Dezhong and Jin, Hai},
-  booktitle={Proceedings of the 2024 IEEE Symposium on Security and Privacy (SP'24)},
-  year={2024}
-}
+After these, we can get three downstream models which are stored in ./aft_downsteam_se and ./clean_downstream
+
+* **Train Attacker's Perturbations** 
+
+  ```shell
+  python ./atk_advencoder/gan_per_attack.py --dataset cifar10 --victim wmse --pre_dataset cifar10
+  ```
+
+  After this, we can get the perturbations which is stored in ./advencoder, we have completed the training phrase.
+
+* **Test with Baseline**
+
+  * Here, we will test the performance on baseline(without any defense)
+
+  ```shell
+  python test_down_withoutDefense.py --dataset cifar10 --pre_dataset cifar10 --sup_dataset cifar10 --ssl_method wmse
+  ```
+
+  After running this command, we can get three metrics:
+
+  * Benign Accuracy(BA): the accuracy on benign data
+  * Adv Accuracy(we call RA in our paper): the accuracy on perturbed data
+  * Attack Success Rate(ASR): a metric on attacker's view
+
+* **Test with ZePAD**
+
+```shell
+python zepad_test.py --dataset cifar10 --pre_dataset cifar10 --ssl_method wmse --sup_dataset cifar10 --ft_dataset cifar10 --helper simclr
 ```
+
+We can also get the same three metrics. 
+
+## Pretrained Checkpoints
+
+We provide a small set of representative pretrained checkpoints (via Git LFS)  to facilitate reproducibility and further research.
+
+Due to storage considerations, only selected models are included. 
+

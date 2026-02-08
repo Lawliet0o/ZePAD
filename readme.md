@@ -23,6 +23,7 @@ Extensive experiments on **11 SSL methods** and **6 datasets** validate its effe
 - **Get code**
 ```shell 
 git clone https://github.com/Lawliet0o/ZePAD.git
+git lfs pull
 ```
 
 - **Build environment**
@@ -71,119 +72,112 @@ pip install -r requirements.txt
 - **Download pre-trained encoders**
   
   - All of our pre-trained encoders were obtained from the [solo-learn](https://github.com/vturrisi/solo-learn)  repository, and some missing pre-trained encoders were trained by us based on their code.
-  - Please move the downloaded pre-trained encoder into  /pretrained_encoders/[pre-dataset]/[method].
+  - Please move the downloaded pre-trained encoder into  ./pretrained_encoders/[pre-dataset]/[method].
 
 
-### CIFAR-10
-
-| Method       | Backbone | Epochs | Acc@1 | Acc@5 | Checkpoint |
-|--------------|:--------:|:------:|:--------------:|:--------------:|:----------:|
-| BYOL         | ResNet18 |  1000  |  92.58     |     99.79      | [Link](https://drive.google.com/drive/folders/1KxeYAEE7Ev9kdFFhXWkPZhG-ya3_UwGP?usp=sharing) |
-| DINO         | ResNet18 |  1000  |  89.52     |     99.71      | [Link](https://drive.google.com/drive/folders/1vyqZKUyP8sQyEyf2cqonxlGMbQC-D1Gi?usp=sharing) |
-| MoCo V2+     | ResNet18 |  1000  |  92.94     |     99.79      | [Link](https://drive.google.com/drive/folders/1ruNFEB3F-Otxv2Y0p62wrjA4v5Fr2cKC?usp=sharing) |
-| MoCo V3      | ResNet18 |  1000  |  93.10     |     99.80      | [Link](https://drive.google.com/drive/folders/1KwZTshNEpmqnYJcmyYPvfIJ_DNwqtAVj?usp=sharing) |
-| NNCLR        | ResNet18 |  1000  |  91.88     |     99.78      | [Link](https://drive.google.com/drive/folders/1xdCzhvRehPmxinphuiZqFlfBwfwWDcLh?usp=sharing) |
-| ReSSL        | ResNet18 |  1000  |  90.63     |     99.62      | [Link](https://drive.google.com/drive/folders/1jrFcztY2eO_fG98xPshqOD15pDIhLXp-?usp=sharing) |
-| SimCLR       | ResNet18 |  1000  |  90.74     |     99.75      | [Link](https://drive.google.com/drive/folders/1mcvWr8P2WNJZ7TVpdLHA_Q91q4VK3y8O?usp=sharing) |
-| SwAV         | ResNet18 |  1000  |  89.17     |     99.68      | [Link](https://drive.google.com/drive/folders/1nlJH4Ljm8-5fOIeAaKppQT6gtsmmW1T0?usp=sharing) |
-| VIbCReg      | ResNet18 |  1000  |  91.18     |     99.74      | [Link](https://drive.google.com/drive/folders/1XvxUOnLPZlC_-OkeuO7VqXT7z9_tNVk7?usp=sharing) |
-| W-MSE        | ResNet18 |  1000  |  88.67     |     99.68      | [Link](https://drive.google.com/drive/folders/1xPCiULzQ4JCmhrTsbxBp9S2jRZ01KiVM?usp=sharing) |
-
-
-### ImageNet-100
-
-| Method                  | Backbone | Epochs | Acc@1 | Acc@5| Checkpoint |
-|-------------------------|:--------:|:------:|:--------------:|:---------------:|:----------:|
-| BYOL        | ResNet18 |   400  | 80.16     |     95.02       |  [Link](https://drive.google.com/drive/folders/1riOLjMawD_znO4HYj8LBN2e1X4jXpDE1?usp=sharing) |
-| DINO                    | ResNet18 |   400  | 74.84     |     92.92       | [Link](https://drive.google.com/drive/folders/1NtVvRj-tQJvrMxRlMtCJSAecQnYZYkqs?usp=sharing) |
-| MoCo V2+    | ResNet18 |   400  | 78.20     |     95.50       |  [Link](https://drive.google.com/drive/folders/1ItYBtMJ23Yh-Rhrvwjm4w1waFfUGSoKX?usp=sharing) |
-| MoCo V3     | ResNet18 |   400  | 80.36     |     95.18       |  [Link](https://drive.google.com/drive/folders/15J0JiZsQAsrQler8mbbio-desb_nVoD1?usp=sharing) |
-| NNCLR       | ResNet18 |   400  | 79.80     |     95.28       |  [Link](https://drive.google.com/drive/folders/1QMkq8w3UsdcZmoNUIUPgfSCAZl_LSNjZ?usp=sharing) |
-| ReSSL                   | ResNet18 |   400  | 76.92     |     94.20       |   [Link](https://drive.google.com/drive/folders/1urWIFACLont4GAduis6l0jcEbl080c9U?usp=sharing) |
-| SimCLR      | ResNet18 |   400  | 77.64     |     94.06        |    [Link](https://drive.google.com/drive/folders/1yxAVKnc8Vf0tDfkixSB5mXe7dsA8Ll37?usp=sharing) |
-| SwAV                    | ResNet18 |   400  | 74.04     |     92.70       |   [Link](https://drive.google.com/drive/folders/1VWCMM69sokzjVoPzPSLIsUy5S2Rrm1xJ?usp=sharing) |
-| VIbCReg                 | ResNet18 |   400  | 79.86     |     94.98       |   [Link](https://drive.google.com/drive/folders/1Q06hH18usvRwj2P0bsmoCkjNUX_0syCK?usp=sharing) |
-| W-MSE                   | ResNet18 |   400  | 67.60     |     90.94       |    [Link](https://drive.google.com/drive/folders/1TxubagNV4z5Qs7SqbBcyRHWGKevtFO5l?usp=sharing) |
-
-
+### 
 
 ## Quick Start
 
-This section illustrates a case that use ZePAD to protect an encoder.
+This section provides an example of how to apply **ZePAD** to protect a pre-trained encoder against downstream-agnostic adversarial examples.
 
 * **Settings**:
-* MAPE-Branch
-  
-  * Victim: W-MSE(pre-trained on CIFAR10)
-  
-  * Adv-AU model: BYOL(pre-trained on ImageNet)
-  
-* BMP-Branch
-  
-  * SimCLR(pre-trained on CIFAR10)
-  
-* Fine-tuning dataset: CIFAR10
-  
-* Attack: AdvEncoder([CGCL-codes/AdvEncoder: The implementation of our ICCV 2023 paper "Downstream-agnostic Adversarial Examples" (github.com)](https://github.com/CGCL-codes/AdvEncoder))
-  
-* Attacker's dataset: CIFAR10
-  
-* Downstream dataset: CIFAR10
+  * MPAE-Branch
+    * Victim: W-MSE (pre-trained on CIFAR10)
+
+    * Adv-AU model: BYOL (pre-trained on ImageNet)
+
+  * BMP-Branch
+    * SimCLR (pre-trained on CIFAR10)
+
+  * Fine-tuning dataset: CIFAR10
+  * Attack: AdvEncoder(implementation from the ICCV 2023 paper *“Downstream-agnostic Adversarial Examples”*)  
+      https://github.com/CGCL-codes/AdvEncoder
+  * Attacker's dataset: CIFAR10
+  * Downstream dataset: CIFAR10
+
 
 - **Adversarial Fine-tuning**
-  - Here, we select the W-MSE which is pre-trained on CIFAR10 as the victim model
-  - The Adv-AU model is selected as BYOL which is pre-trained on ImageNet
-  - Adversarial fine-tuning dataset is selected as CIFAR10
+  
+  In this example, we perform adversarial fine-tuning under the following configuration:
+  - The **victim encoder** is W-MSE pre-trained on CIFAR-10.
+  - The **Adv-AU encoder** is BYOL pre-trained on ImageNet.
+  - The **adversarial fine-tuning dataset** is CIFAR-10.
+  
+  Run the following commands to perform adversarial fine-tuning for each branch:
 ```shell 
 python adversarial_fine-tuning.py --dataset cifar10 --pre_dataset cifar10 --ssl_method wmse
 python adversarial_fine-tuning.py --dataset cifar10 --pre_dataset imagenet --ssl_method byol
 ```
 - **Train Downstream Models**
-  - We can use the "train_down_with_pretrained_encoder.py " to train the downstream models for clean(without adversarial fine-tuning) encoders
-  - We can use the "train_down_singleE.py" to train the downstream models for the fine-tuned encoders
-  - Here, the BMP-Branch is selected as SimCLR which is pre-trained on CIFAR10
-  - So, in this case, we need to train the downstream models for these three encoders
+  
+  We train downstream classifiers for both clean (non-adversarially fine-tuned) encoders and adversarially fine-tuned encoders as follows:
+  
+  - `train_down_with_pretrained_encoder.py` is used to train downstream models on **clean encoders** (without adversarial fine-tuning).
+  - `train_down_singleE.py` is used to train downstream models on **adversarially fine-tuned encoders**.
+  - In this example, the **BMP-Branch encoder** is SimCLR pre-trained on CIFAR-10.
+  - Consequently, we train downstream models for the following three encoders:
+    1. SimCLR (clean, pre-trained on CIFAR-10)
+    2. W-MSE (adversarially fine-tuned on CIFAR-10)
+    3. BYOL (adversarially fine-tuned, pre-trained on ImageNet)
+  
+  Run the following commands to train the downstream models:
 ```shell 
 python train_down_with_pretrained_encoder.py --dataset cifar10 --pre_dataset cifar10 --ssl_method simclr
 python train_down_singleE.py --dataset cifar10 --pre_dataset cifar10 --ft_dataset cifar10 --ssl_method wmse
 python train_down_singleE.py --dataset cifar10 --pre_dataset imagenet --ft_dataset cifar10 --ssl_method byol
 ```
 
-After these, we can get three downstream models which are stored in ./aft_downsteam_se and ./clean_downstream
+​	After training, the resulting downstream models are saved in:
+
+​	`./clean_downstream`
+
+​	`./aft_downstream_se`
 
 * **Train Attacker's Perturbations** 
+
+  We first train the attacker to generate downstream-agnostic adversarial perturbations using AdvEncoder:
 
   ```shell
   python ./atk_advencoder/gan_per_attack.py --dataset cifar10 --victim wmse --pre_dataset cifar10
   ```
 
-  After this, we can get the perturbations which is stored in ./advencoder, we have completed the training phrase.
+  After training, the generated perturbations are saved in `./advencoder`.
+  At this point, the training phase is completed.
 
-* **Test with Baseline**
+* **Evaluation on Baseline (No Defense)**
 
-  * Here, we will test the performance on baseline(without any defense)
+  We evaluate the downstream model **without any defense mechanism** as a baseline.
 
   ```shell
   python test_down_withoutDefense.py --dataset cifar10 --pre_dataset cifar10 --sup_dataset cifar10 --ssl_method wmse
   ```
 
-  After running this command, we can get three metrics:
-
-  * Benign Accuracy(BA): the accuracy on benign data
-  * Adv Accuracy(we call RA in our paper): the accuracy on perturbed data
-  * Attack Success Rate(ASR): a metric on attacker's view
-
+  * This command reports the following three metrics:
+    - **Benign Accuracy (BA)**: accuracy on clean (benign) samples.
+    - **Robust Accuracy (RA)**: accuracy on adversarially perturbed samples (referred to as *Adv Accuracy* in some scripts).
+    - **Attack Success Rate (ASR)**: the success rate of the attacker from the adversarial perspective.
+  
 * **Test with ZePAD**
+
+​	We then evaluate the downstream model protected by **ZePAD**:
 
 ```shell
 python zepad_test.py --dataset cifar10 --pre_dataset cifar10 --ssl_method wmse --sup_dataset cifar10 --ft_dataset cifar10 --helper simclr
 ```
 
-We can also get the same three metrics. 
+​	The same three metrics (**BA**, **RA**, and **ASR**) are reported for comparison.
 
-## Pretrained Checkpoints
 
-We provide a small set of representative pretrained checkpoints (via Git LFS)  to facilitate reproducibility and further research.
 
-Due to storage considerations, only selected models are included. 
+## BibTeX
 
+If you find **ZePAD** useful for your research, please consider citing our paper:
+
+```bibtex
+@inproceedings{Lei_2026_ZePAD,
+  title     = {Zero-Sacrifice Persistent-Robustness Adversarial Defense for Pre-Trained Encoders},
+  author    = {Zhuxin Lei, Ziyuan Yang and Yi Zhang},
+  booktitle = {Proceedings of the International Conference on Learning Representations},
+  year      = {2026}
+}

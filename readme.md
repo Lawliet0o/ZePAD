@@ -180,7 +180,7 @@ If you find **ZePAD** useful for your research, please consider citing our paper
 ```bibtex
 @inproceedings{Lei_2026_ZePAD,
   title     = {Zero-Sacrifice Persistent-Robustness Adversarial Defense for Pre-Trained Encoders},
-  author    = {Zhuxin Lei, Ziyuan Yang and Yi Zhang},
+  author    = {Lei, Zhuxin and Yang, Ziyuan and Zhang, Yi},
   booktitle = {Proceedings of the International Conference on Learning Representations},
   year      = {2026}
 }
